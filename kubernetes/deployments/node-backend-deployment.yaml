@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-backend
+  namespace: fullstack-application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-backend
+  template:
+    metadata:
+      labels:
+        app: node-backend
+    spec:
+      containers:
+      - name: node-backend
+        image: maheshchalise/node-backend:v1.0
+        ports:
+        - containerPort: 3030
+        env:
+        - name: PORT
+          value: "3030"
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: mongodb-config
+              key: MONGO_URI
+
